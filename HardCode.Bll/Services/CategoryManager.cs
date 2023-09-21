@@ -2,6 +2,7 @@ using HardCode.Bll.Dtos;
 using HardCode.Bll.Services.Interfaces;
 using HardCode.Dal.Entites;
 using HardCode.Dal.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace HardCode.Bll.Services;
 
@@ -23,17 +24,20 @@ public class CategoryManager : ICategoryManager
         {
             Name = categoryDto.Name
         };
-
+        
         await _categoryRepository.Create(categoryEntity);
 
-        await _propertyRepository.CreateMany(categoryDto.Properties
+        var propertyEntities= categoryDto.Properties
             .Select(x => new PropertyEntity
             {
                 Name = x.Name,
                 CategoryEntity = categoryEntity,
+                Type = x.Type,
                 CategoryId = categoryEntity.Id
             })
-            .ToList());
+            .ToList();
+        
+        await _propertyRepository.CreateMany(propertyEntities);
     }
 
     public async Task DeleteCategory(Guid id)
@@ -51,8 +55,9 @@ public class CategoryManager : ICategoryManager
         {
             var properties = _propertyRepository
                 .Query()
+                .AsNoTracking()
                 .Where(x => x.CategoryId == categoryEntity.Id)
-                .Select(prop => new Property
+                .Select(prop => new CategoryPropertyDto
                 {
                     Name = prop.Name,
                     Type = prop.Type
@@ -61,7 +66,8 @@ public class CategoryManager : ICategoryManager
             categoryDtos.Add(new CategoryDto
             {
                 Name = categoryEntity.Name,
-                Properties = properties
+                Properties = properties,
+                Id = categoryEntity.Id
             });
         }
 

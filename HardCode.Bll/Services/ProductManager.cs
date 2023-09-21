@@ -26,65 +26,64 @@ public class ProductManager : IProductManager
 
     public async Task CreateProduct(ProductDto productDto)
     {
-        var categoryEntity = await _categoryRepository.GetById(productDto.Category.CategoryId);
+        var categoryEntity = await _categoryRepository.GetById(productDto.ProductCategoryDto.CategoryId);
         var productEntity = new ProductEntity
         {
             CategoryEntity = categoryEntity,
-            CategoryId = productDto.Category.CategoryId,
+            CategoryId = productDto.ProductCategoryDto.CategoryId,
             Description = productDto.Description,
             ImageUrl = productDto.ImageUrl,
             Name = productDto.Name,
             Price = productDto.Price
         };
 
-        List<PropertyEntity> propertyEntities = new List<PropertyEntity>();
+
+        List<PropertyEntity> propertyEntities = _propertyRepository
+            .Query()
+            .Where(x => x.CategoryId == productDto.ProductCategoryDto.CategoryId)
+            .ToList();
+
         List<ValueEntity> valueEntities = new List<ValueEntity>();
 
-        foreach (var property in productDto.Category.Properties)
+        foreach (var (propertyEntity, property) in propertyEntities.Zip(productDto.ProductCategoryDto.Properties,
+                     (propertyEntity, property) => (propertyEntity, property)))
         {
-            var propertyEntity = new PropertyEntity
-            {
-                CategoryEntity = categoryEntity,
-                CategoryId = productDto.Category.CategoryId,
-                Name = property.Name,
-                Type = property.Type
-            };
-
             var valueEntity = new ValueEntity
             {
-                Value = property.Value,
                 ProductEntity = productEntity,
                 ProductId = productEntity.Id,
                 PropertyEntity = propertyEntity,
-                PropertyId = propertyEntity.Id
+                PropertyId = propertyEntity.Id,
+                Value = property.Value
             };
-            propertyEntities.Add(propertyEntity);
+
             valueEntities.Add(valueEntity);
         }
 
         await _productRepository.Create(productEntity);
         await _valuesRepository.CreateMany(valueEntities);
-        await _propertyRepository.CreateMany(propertyEntities);
     }
 
     public async Task<ProductDto?> GetProductById(Guid id)
     {
         var productEntity = await _productRepository
             .Query()
+            .AsNoTracking()
             .Include(x => x.ValueEntities)
-            .ThenInclude(x=>x.PropertyEntity)
+            .ThenInclude(x => x.PropertyEntity)
             .FirstOrDefaultAsync(x => x.Id == id);
 
         if (productEntity == null)
             return null;
-        
+
         var productDto = new ProductDto
         {
             Name = productEntity.Name,
-            Category = new Category
+            Id = productEntity.Id,
+            ProductCategoryDto = new ProductCategoryDto
             {
                 CategoryId = productEntity.CategoryId,
-                Properties = productEntity.ValueEntities.Select(x=>new PropertyProduct
+                Properties = productEntity.ValueEntities.Select(x => new ProductPropertyDto
                 {
                     Name = x.PropertyEntity.Name,
                     Type = x.PropertyEntity.Type,
@@ -99,33 +98,48 @@ public class ProductManager : IProductManager
         return productDto;
     }
 
-    public async Task<List<ProductDto>> GetProductsByQuery(string query)
+    public async Task<List<ProductDto>> GetProductsByQuery(string? query)
     {
-        var productEntity = await _productRepository
-            .Query()
-            .Include(x => x.ValueEntities)
-            .Include(x => x.CategoryEntity)
-            .Where(x=>
-                x.CategoryEntity.Name.Contains(query) || 
-                x.ValueEntities.Any(value=>value.Value.Contains(query)))
-            .ToListAsync();
-        
-        return productEntity.Select(productEntity => new ProductDto
+        List<ProductEntity> productEntity;
+        if (query == null)
         {
-            Name = productEntity.Name,
-            Category = new Category
+            productEntity = await _productRepository
+                .Query()
+                .AsNoTracking()
+                .Include(x => x.ValueEntities)
+                .Include(x => x.CategoryEntity)
+                .ToListAsync();
+        }
+        else
+        {
+            productEntity = await _productRepository
+                .Query()
+                .AsNoTracking()
+                .Include(x => x.ValueEntities)
+                .Include(x => x.CategoryEntity)
+                .Where(x => x.Name.ToLower().Contains(query.ToLower()) ||
+                            x.ValueEntities.Any(x => x.Value.ToLower().Contains(query.ToLower())))
+                .ToListAsync();
+        }
+
+
+        return productEntity.Select(x => new ProductDto
+        {
+            Name = x.Name,
+            Id = x.Id,
+            ProductCategoryDto = new ProductCategoryDto
             {
-                CategoryId = productEntity.CategoryId,
-                Properties = productEntity.ValueEntities.Select(x=>new PropertyProduct
+                CategoryId = x.CategoryId,
+                Properties = x.ValueEntities.Select(x => new ProductPropertyDto
                 {
                     Name = x.PropertyEntity.Name,
                     Type = x.PropertyEntity.Type,
                     Value = x.Value
                 }).ToList()
             },
-            Description = productEntity.Description,
-            ImageUrl = productEntity.ImageUrl,
-            Price = productEntity.Price
+            Description = x.Description,
+            ImageUrl = x.ImageUrl,
+            Price = x.Price
         }).ToList();
     }
 }
