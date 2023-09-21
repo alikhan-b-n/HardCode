@@ -15,6 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\HardCode.Bll\HardCode.Bll.csproj" />
       <ProjectReference Include="..\HardCode.Dal\HardCode.Dal.csproj" />
     </ItemGroup>
 

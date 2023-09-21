@@ -333,6 +333,19 @@
           "Microsoft.AspNetCore.App"
         ]
       },
+      "HardCode.Bll/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v7.0",
+        "dependencies": {
+          "HardCode.Dal": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/HardCode.Bll.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/HardCode.Bll.dll": {}
+        }
+      },
       "HardCode.Dal/1.0.0": {
         "type": "project",
         "framework": ".NETCoreApp,Version=v7.0",
@@ -839,6 +852,11 @@
         "swashbuckle.aspnetcore.swaggerui.nuspec"
       ]
     },
+    "HardCode.Bll/1.0.0": {
+      "type": "project",
+      "path": "../HardCode.Bll/HardCode.Bll.csproj",
+      "msbuildProject": "../HardCode.Bll/HardCode.Bll.csproj"
+    },
     "HardCode.Dal/1.0.0": {
       "type": "project",
       "path": "../HardCode.Dal/HardCode.Dal.csproj",
@@ -847,6 +865,7 @@
   },
   "projectFileDependencyGroups": {
     "net7.0": [
+      "HardCode.Bll >= 1.0.0",
       "HardCode.Dal >= 1.0.0",
       "Swashbuckle.AspNetCore.Swagger >= 6.5.0",
       "Swashbuckle.AspNetCore.SwaggerGen >= 6.5.0",
@@ -878,6 +897,9 @@
         "net7.0": {
           "targetAlias": "net7.0",
           "projectReferences": {
+            "/Users/alikhanbalkhashbayev/RiderProjects/TechTaskHardCode/HardCode.Bll/HardCode.Bll.csproj": {
+              "projectPath": "/Users/alikhanbalkhashbayev/RiderProjects/TechTaskHardCode/HardCode.Bll/HardCode.Bll.csproj"
+            },
             "/Users/alikhanbalkhashbayev/RiderProjects/TechTaskHardCode/HardCode.Dal/HardCode.Dal.csproj": {
               "projectPath": "/Users/alikhanbalkhashbayev/RiderProjects/TechTaskHardCode/HardCode.Dal/HardCode.Dal.csproj"
             }

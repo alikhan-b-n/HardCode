@@ -1,7 +1,7 @@
-using TechTask.Dal.AdditionalModels;
-using TechTask.Dal.Entites;
+using HardCode.Dal.AdditionalModels;
+using HardCode.Dal.Entites;
 
-namespace TechTask.Bll.Dtos;
+namespace HardCode.Bll.Dtos;
 
 public class ValueDto
 {

@@ -1,6 +1,4 @@
-using System;
-
-namespace TechTask.Dal.Entites;
+namespace HardCode.Dal.Entites;
 
 public abstract class BaseEntity
 {

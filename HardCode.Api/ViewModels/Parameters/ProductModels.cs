@@ -1,3 +1,5 @@
+using HardCode.Dal.AdditionalModels;
+
 namespace TechTaskHardCode.ViewModels.Parameters;
 
 public class CreateProductModel
@@ -12,5 +14,12 @@ public class CreateProductModel
 public class Category
 {
     public Guid CategoryId { get; set; }
-    public List<Property> Properties { get; set; }
+    public List<PropertyProduct> Properties { get; set; }
+}
+
+public class PropertyProduct
+{
+    public string Name { get; set; }
+    public TypeEnum Type { get; set; }
+    public string Value { get; set; }
 }
