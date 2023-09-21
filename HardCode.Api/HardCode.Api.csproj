@@ -15,12 +15,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Controllers\" />
-      <Folder Include="ViewModels\Parameters\" />
-      <Folder Include="ViewModels\Responses\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\HardCode.Dal\HardCode.Dal.csproj" />
     </ItemGroup>
 
