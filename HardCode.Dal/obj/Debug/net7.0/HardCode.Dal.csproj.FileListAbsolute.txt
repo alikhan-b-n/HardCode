@@ -1,0 +1,12 @@
+/Users/alikhanbalkhashbayev/RiderProjects/TechTaskHardCode/HardCode.Dal/bin/Debug/net7.0/HardCode.Dal.deps.json
+/Users/alikhanbalkhashbayev/RiderProjects/TechTaskHardCode/HardCode.Dal/bin/Debug/net7.0/HardCode.Dal.dll
+/Users/alikhanbalkhashbayev/RiderProjects/TechTaskHardCode/HardCode.Dal/bin/Debug/net7.0/HardCode.Dal.pdb
+/Users/alikhanbalkhashbayev/RiderProjects/TechTaskHardCode/HardCode.Dal/obj/Debug/net7.0/HardCode.Dal.csproj.AssemblyReference.cache
+/Users/alikhanbalkhashbayev/RiderProjects/TechTaskHardCode/HardCode.Dal/obj/Debug/net7.0/HardCode.Dal.GeneratedMSBuildEditorConfig.editorconfig
+/Users/alikhanbalkhashbayev/RiderProjects/TechTaskHardCode/HardCode.Dal/obj/Debug/net7.0/HardCode.Dal.AssemblyInfoInputs.cache
+/Users/alikhanbalkhashbayev/RiderProjects/TechTaskHardCode/HardCode.Dal/obj/Debug/net7.0/HardCode.Dal.AssemblyInfo.cs
+/Users/alikhanbalkhashbayev/RiderProjects/TechTaskHardCode/HardCode.Dal/obj/Debug/net7.0/HardCode.Dal.csproj.CoreCompileInputs.cache
+/Users/alikhanbalkhashbayev/RiderProjects/TechTaskHardCode/HardCode.Dal/obj/Debug/net7.0/HardCode.Dal.dll
+/Users/alikhanbalkhashbayev/RiderProjects/TechTaskHardCode/HardCode.Dal/obj/Debug/net7.0/refint/HardCode.Dal.dll
+/Users/alikhanbalkhashbayev/RiderProjects/TechTaskHardCode/HardCode.Dal/obj/Debug/net7.0/HardCode.Dal.pdb
+/Users/alikhanbalkhashbayev/RiderProjects/TechTaskHardCode/HardCode.Dal/obj/Debug/net7.0/ref/HardCode.Dal.dll
