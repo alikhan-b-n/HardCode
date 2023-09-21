@@ -1,7 +1,7 @@
+using HardCode.Dal.Entites;
 using Microsoft.EntityFrameworkCore;
-using TechTask.Dal.Entites;
 
-namespace TechTask.Dal;
+namespace HardCode.Dal;
 
 public class ApplicationContext : DbContext
 {

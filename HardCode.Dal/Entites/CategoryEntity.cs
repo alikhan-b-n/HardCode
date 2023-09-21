@@ -1,4 +1,4 @@
-namespace TechTask.Dal.Entites;
+namespace HardCode.Dal.Entites;
 
 public class CategoryEntity : BaseEntity
 {

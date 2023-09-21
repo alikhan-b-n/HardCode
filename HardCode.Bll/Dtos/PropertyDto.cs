@@ -1,4 +1,4 @@
-namespace TechTask.Bll.Dtos;
+namespace HardCode.Bll.Dtos;
 
 public class PropertyDto
 {

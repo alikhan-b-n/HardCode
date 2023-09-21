@@ -1,14 +1,14 @@
-using TechTask.Dal.AdditionalModels;
+using HardCode.Dal.AdditionalModels;
 
 namespace TechTaskHardCode.ViewModels.Parameters;
 
 public class CreateCategoryModel
 {
     public string Name { get; set; }
-    public List<Property> Properties { get; set; }
+    public List<PropertyCategory> Properties { get; set; }
 }
 
-public class Property
+public class PropertyCategory
 {
     public string Name { get; set; }
     public TypeEnum Type { get; set; }

@@ -1,4 +1,4 @@
-namespace TechTask.Dal.AdditionalModels;
+namespace HardCode.Dal.AdditionalModels;
 
 public enum TypeEnum
 {

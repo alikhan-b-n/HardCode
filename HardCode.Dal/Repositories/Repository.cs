@@ -1,8 +1,8 @@
+using HardCode.Dal.Entites;
+using HardCode.Dal.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using TechTask.Dal.Entites;
-using TechTask.Dal.Repositories.Interfaces;
 
-namespace TechTask.Dal.Repositories;
+namespace HardCode.Dal.Repositories;
 
 public class Repository<TEntity> : ICrudRepository<TEntity> where TEntity : BaseEntity
 {
@@ -23,6 +23,12 @@ public class Repository<TEntity> : ICrudRepository<TEntity> where TEntity : Base
     public async Task Create(TEntity entity)
     {
         await _dbSet.AddAsync(entity);
+        await _applicationContext.SaveChangesAsync();
+    }
+
+    public async Task CreateMany(List<TEntity> entities)
+    {
+        await _dbSet.AddRangeAsync(entities);
         await _applicationContext.SaveChangesAsync();
     }
 
