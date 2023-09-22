@@ -20,7 +20,7 @@ public class CategoryController : ControllerBase
         var properties = paramModel
             .Properties
             .Select(x =>
-                new CategoryPropertyDto { Name = x.Name, Type = x.Type })
+                new CategoryPropertyDto { Name = x.Name })
             .ToList();
 
         await _manager.CreateCategory(new CategoryDto
@@ -41,10 +41,10 @@ public class CategoryController : ControllerBase
         {
             Name = x.Name,
             Id = x.Id,
-            Properties = x.Properties.Select(x => new CategoryPropertyViewModel
+            Properties = x.Properties.Select(x => new CategoryPropertyResponseModel
             {
                 Name = x.Name,
-                Type = x.Type
+                PropertyId = x.Id
             }).ToList()
         }));
     }

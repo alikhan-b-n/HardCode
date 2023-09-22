@@ -17,32 +17,38 @@ public class ProductController : ControllerBase
     [HttpPost("api/products")]
     public async Task<IActionResult> CreateProduct([FromBody] ProductParamModel paramModel)
     {
-        var productPropertyDto = paramModel
-            .ProductCategoryViewModel
-            .Properties
-            .Select(x =>
-                new ProductPropertyDto
-                {
-                    Name = x.Name,
-                    Type = x.Type,
-                    Value = x.Value
-                })
-            .ToList();
-
-        await _productManager.CreateProduct(new ProductDto
+        try
         {
-            Description = paramModel.Description,
-            ImageUrl = paramModel.ImageUrl,
-            Name = paramModel.Name,
-            Price = paramModel.Price,
-            ProductCategoryDto = new ProductCategoryDto
-            {
-                CategoryId = paramModel.ProductCategoryViewModel.CategoryId,
-                Properties = productPropertyDto
-            }
-        });
+            var productPropertyDto = paramModel
+                .ProductCategoryParamModel
+                .Properties
+                .Select(x =>
+                    new ProductPropertyDto
+                    {
+                        Id = x.Id,
+                        Value = x.Value
+                    })
+                .ToList();
 
-        return NoContent();
+            await _productManager.CreateProduct(new ProductDto
+            {
+                Description = paramModel.Description,
+                ImageUrl = paramModel.ImageUrl,
+                Name = paramModel.Name,
+                Price = paramModel.Price,
+                ProductCategoryDto = new ProductCategoryDto
+                {
+                    CategoryId = paramModel.ProductCategoryParamModel.CategoryId,
+                    Properties = productPropertyDto
+                }
+            });
+
+            return NoContent();
+        }
+        catch (ArgumentException e)
+        {
+            return BadRequest(e.Message);
+        }
     }
 
     [HttpGet("api/products/")]
@@ -56,13 +62,13 @@ public class ProductController : ControllerBase
             Description = x.Description,
             ImageUrl = x.ImageUrl,
             Price = x.Price,
-            ProductCategoryViewModel = new ProductCategoryViewModel
+            ProductCategoryParamModel = new ProductCategoryResponseModel
             {
                 CategoryId = x.ProductCategoryDto.CategoryId,
                 Properties = x.ProductCategoryDto
                     .Properties
                     .Select(x => new
-                        ProductPropertyViewModel { Name = x.Name, Type = x.Type, Value = x.Value })
+                        ProductPropertyResponseModel { Name = x.Name, Value = x.Value, Id = x.Id})
                     .ToList()
             }
         }).ToList();
@@ -79,7 +85,7 @@ public class ProductController : ControllerBase
             {
                 Message = "Product not found"
             });
-        
+
         var productViewModel = new ProductResponseModel
         {
             Id = productDto.Id,
@@ -87,13 +93,13 @@ public class ProductController : ControllerBase
             ImageUrl = productDto.ImageUrl,
             Name = productDto.Name,
             Price = productDto.Price,
-            ProductCategoryViewModel = new ProductCategoryViewModel
+            ProductCategoryParamModel = new ProductCategoryResponseModel
             {
                 CategoryId = productDto.ProductCategoryDto.CategoryId,
                 Properties = productDto.ProductCategoryDto
                     .Properties
                     .Select(x => new
-                        ProductPropertyViewModel { Name = x.Name, Type = x.Type, Value = x.Value })
+                        ProductPropertyResponseModel { Name = x.Name, Value = x.Value, Id = x.Id})
                     .ToList()
             }
         };

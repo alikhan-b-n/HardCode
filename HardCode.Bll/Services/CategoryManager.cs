@@ -32,7 +32,6 @@ public class CategoryManager : ICategoryManager
             {
                 Name = x.Name,
                 CategoryEntity = categoryEntity,
-                Type = x.Type,
                 CategoryId = categoryEntity.Id
             })
             .ToList();
@@ -60,7 +59,7 @@ public class CategoryManager : ICategoryManager
                 .Select(prop => new CategoryPropertyDto
                 {
                     Name = prop.Name,
-                    Type = prop.Type
+                    Id = prop.Id
                 }).ToList();
 
             categoryDtos.Add(new CategoryDto
