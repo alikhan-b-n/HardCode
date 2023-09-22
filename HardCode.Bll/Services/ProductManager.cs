@@ -27,6 +27,9 @@ public class ProductManager : IProductManager
     public async Task CreateProduct(ProductDto productDto)
     {
         var categoryEntity = await _categoryRepository.GetById(productDto.ProductCategoryDto.CategoryId);
+        if (categoryEntity == null)
+            throw new ArgumentException("Category not found");
+
         var productEntity = new ProductEntity
         {
             CategoryEntity = categoryEntity,
@@ -42,6 +45,12 @@ public class ProductManager : IProductManager
             .Query()
             .Where(x => x.CategoryId == productDto.ProductCategoryDto.CategoryId)
             .ToList();
+
+        if (!ValidateProperties(productDto.ProductCategoryDto.Properties, propertyEntities))
+            throw new ArgumentException("some of property id is not valid");
+
+        if (propertyEntities.Count != productDto.ProductCategoryDto.Properties.Count)
+            throw new ArgumentException("number of properties is not equal to number of value");
 
         List<ValueEntity> valueEntities = new List<ValueEntity>();
 
@@ -85,9 +94,9 @@ public class ProductManager : IProductManager
                 CategoryId = productEntity.CategoryId,
                 Properties = productEntity.ValueEntities.Select(x => new ProductPropertyDto
                 {
-                    Name = x.PropertyEntity.Name,
-                    Type = x.PropertyEntity.Type,
-                    Value = x.Value
+                    Id = x.PropertyEntity.Id,
+                    Value = x.Value,
+                    Name = x.PropertyEntity.Name
                 }).ToList()
             },
             Description = productEntity.Description,
@@ -100,30 +109,24 @@ public class ProductManager : IProductManager
 
     public async Task<List<ProductDto>> GetProductsByQuery(string? query)
     {
-        List<ProductEntity> productEntity;
-        if (query == null)
+        var productsQuery = _productRepository
+            .Query()
+            .AsNoTracking()
+            .Include(x => x.ValueEntities)
+            .ThenInclude(x => x.PropertyEntity)
+            .Include(x => x.CategoryEntity)
+            .AsQueryable();
+
+        if (!string.IsNullOrEmpty(query))
         {
-            productEntity = await _productRepository
-                .Query()
-                .AsNoTracking()
-                .Include(x => x.ValueEntities)
-                .Include(x => x.CategoryEntity)
-                .ToListAsync();
-        }
-        else
-        {
-            productEntity = await _productRepository
-                .Query()
-                .AsNoTracking()
-                .Include(x => x.ValueEntities)
-                .Include(x => x.CategoryEntity)
+            productsQuery =  productsQuery
                 .Where(x => x.Name.ToLower().Contains(query.ToLower()) ||
-                            x.ValueEntities.Any(x => x.Value.ToLower().Contains(query.ToLower())))
-                .ToListAsync();
+                            x.ValueEntities.Any(x => x.Value.ToLower().Contains(query.ToLower())));
         }
 
+        var products = await productsQuery.ToListAsync();
 
-        return productEntity.Select(x => new ProductDto
+        var dsa = products.Select(x => new ProductDto
         {
             Name = x.Name,
             Id = x.Id,
@@ -132,14 +135,26 @@ public class ProductManager : IProductManager
                 CategoryId = x.CategoryId,
                 Properties = x.ValueEntities.Select(x => new ProductPropertyDto
                 {
-                    Name = x.PropertyEntity.Name,
-                    Type = x.PropertyEntity.Type,
-                    Value = x.Value
+                    Id = x.PropertyEntity.Id,
+                    Value = x.Value,
+                    Name = x.PropertyEntity.Name
                 }).ToList()
             },
             Description = x.Description,
             ImageUrl = x.ImageUrl,
             Price = x.Price
         }).ToList();
+        return dsa;
+    }
+
+    private bool ValidateProperties(List<ProductPropertyDto> propertyDtos, List<PropertyEntity> propertyEntities)
+    {
+        // Check that every Guid in the list of Guids is present in the list of objects
+        if (!propertyDtos.All(propertyDto => propertyEntities.Any(x => x.Id == propertyDto.Id)))
+        {
+            return false;
+        }
+
+        return true;
     }
 }

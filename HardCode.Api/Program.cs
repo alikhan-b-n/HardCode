@@ -13,6 +13,7 @@ builder.Services.AddDbContext<ApplicationContext>((options) =>
 builder.Services.AddScoped(typeof(ICrudRepository<>), typeof(Repository<>));
 builder.Services.AddScoped<ICategoryManager, CategoryManager>();
 builder.Services.AddScoped<IProductManager, ProductManager>();
+builder.Services.AddScoped<IPropertyManager, PropertyManager>();
 builder.Services.AddControllers();
 
 builder.Services.AddHttpClient();

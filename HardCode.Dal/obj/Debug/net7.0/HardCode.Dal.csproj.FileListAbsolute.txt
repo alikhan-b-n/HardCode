@@ -10,3 +10,5 @@
 /Users/alikhanbalkhashbayev/RiderProjects/TechTaskHardCode/HardCode.Dal/obj/Debug/net7.0/refint/HardCode.Dal.dll
 /Users/alikhanbalkhashbayev/RiderProjects/TechTaskHardCode/HardCode.Dal/obj/Debug/net7.0/HardCode.Dal.pdb
 /Users/alikhanbalkhashbayev/RiderProjects/TechTaskHardCode/HardCode.Dal/obj/Debug/net7.0/ref/HardCode.Dal.dll
+/Users/alikhanbalkhashbayev/RiderProjects/TechTaskHardCode/HardCode.Dal/bin/Debug/net7.0/HardCode.Dal.runtimeconfig.json
+/Users/alikhanbalkhashbayev/RiderProjects/TechTaskHardCode/HardCode.Dal/obj/Debug/net7.0/HardCode.Dal.genruntimeconfig.cache

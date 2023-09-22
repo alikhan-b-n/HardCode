@@ -39,3 +39,8 @@
 /Users/alikhanbalkhashbayev/RiderProjects/TechTaskHardCode/HardCode.Api/obj/Debug/net7.0/ref/HardCode.Api.dll
 /Users/alikhanbalkhashbayev/RiderProjects/TechTaskHardCode/HardCode.Api/bin/Debug/net7.0/HardCode.Bll.dll
 /Users/alikhanbalkhashbayev/RiderProjects/TechTaskHardCode/HardCode.Api/bin/Debug/net7.0/HardCode.Bll.pdb
+/Users/alikhanbalkhashbayev/RiderProjects/TechTaskHardCode/HardCode.Api/bin/Debug/net7.0/Humanizer.dll
+/Users/alikhanbalkhashbayev/RiderProjects/TechTaskHardCode/HardCode.Api/bin/Debug/net7.0/Microsoft.EntityFrameworkCore.Design.dll
+/Users/alikhanbalkhashbayev/RiderProjects/TechTaskHardCode/HardCode.Api/bin/Debug/net7.0/Microsoft.Extensions.DependencyModel.dll
+/Users/alikhanbalkhashbayev/RiderProjects/TechTaskHardCode/HardCode.Api/bin/Debug/net7.0/Mono.TextTemplating.dll
+/Users/alikhanbalkhashbayev/RiderProjects/TechTaskHardCode/HardCode.Api/bin/Debug/net7.0/System.CodeDom.dll
