@@ -1,4 +1,3 @@
-using HardCode.Dal.AdditionalModels;
 
 namespace HardCode.Bll.Dtos;
 
@@ -8,18 +7,19 @@ public class ProductDto
     public string Description { get; set; }
     public decimal Price { get; set; }
     public string ImageUrl { get; set; }
-    public Category Category { get; set; }
+    public ProductCategoryDto ProductCategoryDto { get; set; }
+    public Guid? Id { get; set; }
 }
 
-public class Category
+public class ProductCategoryDto
 {
     public Guid CategoryId { get; set; }
-    public List<PropertyProduct> Properties { get; set; }
+    public List<ProductPropertyDto> Properties { get; set; }
 }
 
-public class PropertyProduct
+public class ProductPropertyDto
 {
     public string Name { get; set; }
-    public TypeEnum Type { get; set; }
+    public string Type { get; set; }
     public string Value { get; set; }
 }

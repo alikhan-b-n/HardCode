@@ -1,25 +1,58 @@
+using HardCode.Bll.Dtos;
+using HardCode.Bll.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
-using TechTaskHardCode.ViewModels.Parameters;
+using TechTaskHardCode.ViewModels;
 
 namespace TechTaskHardCode.Controllers;
 
 public class CategoryController : ControllerBase
 {
-    [HttpPost("api/categories")]
-    public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryModel model)
+    private readonly ICategoryManager _manager;
+
+    public CategoryController(ICategoryManager manager)
     {
-        return Ok();
+        _manager = manager;
     }
 
-    [HttpGet("api/categories/{id:guid}")]
-    public async Task<IActionResult> GetCategory()
+    [HttpPost("api/categories")]
+    public async Task<IActionResult> CreateCategory([FromBody] CategoryParamModel paramModel)
     {
-        return Ok();
+        var properties = paramModel
+            .Properties
+            .Select(x =>
+                new CategoryPropertyDto { Name = x.Name, Type = x.Type })
+            .ToList();
+
+        await _manager.CreateCategory(new CategoryDto
+        {
+            Name = paramModel.Name,
+            Properties = properties
+        });
+
+        return NoContent();
+    }
+
+    [HttpGet("api/categories")]
+    public async Task<IActionResult> GetCategories()
+    {
+        var categoryDtos = await _manager.GetAllCategories();
+
+        return Ok(categoryDtos.Select(x => new CategoryResponseModel
+        {
+            Name = x.Name,
+            Id = x.Id,
+            Properties = x.Properties.Select(x => new CategoryPropertyViewModel
+            {
+                Name = x.Name,
+                Type = x.Type
+            }).ToList()
+        }));
     }
 
     [HttpDelete("api/categories/{id:guid}")]
-    public async Task<IActionResult> DeleteCategory()
+    public async Task<IActionResult> DeleteCategory([FromRoute] Guid id)
     {
-        return Ok();
+        await _manager.DeleteCategory(id);
+        return NoContent();
     }
 }

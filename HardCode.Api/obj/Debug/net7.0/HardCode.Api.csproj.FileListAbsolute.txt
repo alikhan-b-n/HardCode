@@ -37,3 +37,5 @@
 /Users/alikhanbalkhashbayev/RiderProjects/TechTaskHardCode/HardCode.Api/obj/Debug/net7.0/HardCode.Api.pdb
 /Users/alikhanbalkhashbayev/RiderProjects/TechTaskHardCode/HardCode.Api/obj/Debug/net7.0/HardCode.Api.genruntimeconfig.cache
 /Users/alikhanbalkhashbayev/RiderProjects/TechTaskHardCode/HardCode.Api/obj/Debug/net7.0/ref/HardCode.Api.dll
+/Users/alikhanbalkhashbayev/RiderProjects/TechTaskHardCode/HardCode.Api/bin/Debug/net7.0/HardCode.Bll.dll
+/Users/alikhanbalkhashbayev/RiderProjects/TechTaskHardCode/HardCode.Api/bin/Debug/net7.0/HardCode.Bll.pdb
